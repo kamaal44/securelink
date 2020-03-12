@@ -8,15 +8,27 @@
           eligible to retrieve their results via this portal.  
         <h4>To retrieve your test result, please enter the 12 digit barcode and your date of birth below:</h4>
         <div id="form-card">
-          <form action="/result" method="post">
+          <form action="/result" method="post" id="submitform">
             <div class="form-group col-md-12">
               <label for="barcode">Barcode</label>
-              <input class="form-control" id='barcode' name="barcode" aria-describedby="barcode" placeholder="###-###-###-###">
-              <small id="barcodeHelp" class="form-text text-muted">12-digit barcode from your test retrieval card.</small>
+              <input class="form-control"
+                  id='barcode'
+                  name="barcode"
+                  aria-describedby="barcode"
+                  placeholder="####-####-####-####"
+                  value="{{ barcode }}"
+                  type="text"
+              />
+              <small id="barcodeHelp" class="form-text text-muted">16-digit barcode from your test retrieval card.</small>
             </div>
             <div class="form-group col-md-6">
               <label for="dob">Date of Birth</label>
-              <input class="form-control" id='barcode' name="dob" aria-describedby="dob" placeholder="MM/DD/YYYY">
+              <input class="form-control"
+                id='dob'
+                name="dob"
+                aria-describedby="dob"
+                placeholder="MM/DD/YYYY"
+              / >
               <small id="barcodeHelp" class="form-text text-muted">The date of birth for the patient tested.</small>
             </div>
             <div class="form-group col-md-12">
@@ -24,5 +36,33 @@
             </div>
           </form>
         </div>
+        <script>
+        $("#barcode").mask("AAAA-AAAA-AAAA-AAAA")
+        $("#dob").mask("00/00/0000")
+        jQuery.validator.addMethod("validBarcode", function(value) {
+            return value.match(/(.{4})-(.{4})-(.{4})-(.{4})/g)
+        }, "Please enter a valid 16-digit barcode.");
+
+        $("#submitform").validate({
+          rules: {
+            barcode: {
+              validBarcode: true
+            },
+            dob: {
+              required: true
+            }
+
+          },
+          messages: {
+            barcode: {
+              required: "Please enter the 16-digit barcode.",
+              minlength: "Barcode must be 16 digits. Please omit dashes."
+            },
+            dob: {
+              required: "Please enter date in MM/DD/YYYY format."
+            }
+          }
+        });
+        </script>
       </div>
 {% endblock %}
