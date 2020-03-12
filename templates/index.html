@@ -10,7 +10,11 @@
         <div id="form-card">
           <form action="/result" method="post" id="submitform">
             <div class="form-group col-md-12">
-              <label for="barcode">Barcode</label>
+              <label for="barcode">Barcode <a id="showexample" href="#">(Where can I find this?)</a></label>
+              <div id="example">
+                The barcode is listed on the test retrieval card, given to you at the time of testing:
+                <img src="/static/img/example.png" width="400px" class="m-3" />
+              </div>
               <input class="form-control"
                   id='barcode'
                   name="barcode"
@@ -37,6 +41,13 @@
           </form>
         </div>
         <script>
+        $(document).ready(
+          $("#showexample").click(function () {
+              $("#example").toggle();
+          })
+        );
+
+
         $("#barcode").mask("AAAA-AAAA-AAAA-AAAA")
         $("#dob").mask("00/00/0000")
         jQuery.validator.addMethod("validBarcode", function(value) {

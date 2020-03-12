@@ -13,5 +13,6 @@ def show_result():
     barcode = request.form['barcode']
     dob = request.form['dob']
 
+    print (barcode, dob)
 
     return render_template('results.html', barcode=barcode, collect_dt="03/10/2020", result="POSITIVE")

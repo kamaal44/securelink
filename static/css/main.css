@@ -125,6 +125,10 @@ label.error {
   color: red;
 }
 
+#example {
+  display: none;
+}
+
 
 /* ==========================================================================
    Helper classes
