@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block content %}
+     <div class="col-lg-9">
+      <p><a href="/"><< Retrieve another result</a></p>
+
+        <div id="result-card">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Test Result</th>
+                <th>Collected Date</th>
+                <th>Barcode</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{result}}</td>
+                <td>{{collect_dt}}</td>
+                <td>{{barcode}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h4>Additional Information:</h4>
+        <p>
+          Links, what to do if positive, etc.
+        </p>
+        
+      </div>
+{% endblock %}
