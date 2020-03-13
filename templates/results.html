@@ -7,6 +7,7 @@
           <table class="table">
             <thead>
               <tr>
+                <th>Name</th>
                 <th>Test Result</th>
                 <th>Collected Date</th>
                 <th>Barcode</th>
@@ -14,17 +15,34 @@
             </thead>
             <tbody>
               <tr>
-                <td>{{result}}</td>
-                <td>{{collect_dt}}</td>
-                <td>{{barcode}}</td>
+                <td>{{result.name}}</td>
+                <td>
+                  {% if result.result == "DET" %}
+                    <span style="color: red">POSITIVE (Coronavirus detected)</span>
+                  {% elif result.result == "INCON" %}
+                    <span style="color: orange">Inconclusive</span>
+                  {% elif result.result == "NDET" %}
+                    <span>Negative (Not detected)</span>
+                  {% else %}
+                    {{result.result}}
+                  {% endif %}
+                </td>
+                <td>{{result.collect_dt}}</td>
+                <td>{{result.barcode}}</td>
               </tr>
             </tbody>
           </table>
         </div>
         <h4>Additional Information:</h4>
-        <p>
-          Links, what to do if positive, etc.
-        </p>
+        {% if result.result == "DET" %}
+          <!-- Information for positive patients -->
+        {% elif result.result == "INCON" %}
+          <!-- inconclusive -->
+        {% elif result.result == "NDET" %}
+          <!-- not detected -->
+        {% else %}
+          <!-- other statuses -->
+        {% endif %}
         
       </div>
 {% endblock %}
