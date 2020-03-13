@@ -27,6 +27,13 @@ def show_result():
     # todo; calculate hashed value here
     hashstr = barcode
     key = f"covid19/results/{hashstr}.json"
-    obj = boto3.client('s3').get_object(Bucket=app.config["S3_BUCKET"], Key=key)
+    try:
+        obj = boto3.client('s3').get_object(Bucket=app.config["S3_BUCKET"], Key=key)
+    except:
+        return redirect('/error')
     result = json.load(obj["Body"])
     return render_template('results.html', result=result)
+
+@app.route('/error')
+def error():
+    return render_template('error.html')
