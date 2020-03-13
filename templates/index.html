@@ -54,8 +54,8 @@
             return value.match(/(.{4})-(.{4})-(.{4})-(.{4})/g)
         }, "Please enter a valid 16-digit barcode.");
         jQuery.validator.addMethod("validDob", function(value) {
-            return value.match(/([0-9]{2})\/([0-9]{2})\/([12][0-9]{3})/g)
-        }, "Please enter a valid date.");
+            return value.match(/([0-9]{2})\/([0-9]{2})\/(19|20[0-9]{2})/g)
+        }, "Please enter a valid date of birth.");
 
         $("#submitform").validate({
           rules: {
