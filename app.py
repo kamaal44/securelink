@@ -1,6 +1,7 @@
 import re
 import json
 import boto3
+from datetime import datetime
 from flask import Flask, request, render_template, redirect
 app = Flask(__name__)
 
@@ -23,10 +24,16 @@ def show_result():
 
     if not re.match(r'(\d{2})/(\d{2})/(\d{4})', dob):
         return redirect("/")
+    
+    try:
+        dobdt = datetime.strptime(dob, "%m/%d/%Y")    
+        dobstr = dobdt.strftime('%Y-%m-%d')
+        barcode = barcode.replace("-", "")
+    except:
+        return redirect('/error')
 
-    # todo; calculate hashed value here
-    hashstr = barcode
-    key = f"covid19/results/{hashstr}.json"
+    key = f"covid19/results/{barcode}-{dobstr}.json"
+    print (key)
     try:
         obj = boto3.client('s3').get_object(Bucket=app.config["S3_BUCKET"], Key=key)
     except:

@@ -1,44 +1,48 @@
 {% extends "layout.html" %}
 {% block content %}
-     <div class="col-lg-9">
+     <div class="col-lg-10">
       <p><a href="/"><< Retrieve another result</a></p>
 
         <div id="result-card">
-          <table class="table">
+          <div class="table-responsive">
+          <table class="table col-sm-12">
             <thead>
               <tr>
-                <th>Name</th>
+                <th class='w-25'>Name <br/><span style="font-size: 10pt">(Date of Birth)</span></th>
                 <th>Test Result</th>
                 <th>Collected Date</th>
-                <th>Barcode</th>
+                <th>Retrieval Code</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>{{result.name}}</td>
+                <td>{{result.pat_name}}<br/>({{result.birth_date}})</td>
                 <td>
-                  {% if result.result == "DET" %}
-                    <span style="color: red">POSITIVE (Coronavirus detected)</span>
-                  {% elif result.result == "INCON" %}
-                    <span style="color: orange">Inconclusive</span>
-                  {% elif result.result == "NDET" %}
-                    <span>Negative (Not detected)</span>
+                  {% if result.status_code == "DET" %}
+                    <span style="color: red; font-weight: bold">
+                  {% elif result.status_code == "INCON" %}
+                    <span style="color: dark  orange">
+                  {% elif result.status_code == "NDET" %}
+                    <span style="color: blue">
                   {% else %}
-                    {{result.result}}
+                    <span>
                   {% endif %}
+                      {{result.status}}
+                    </span> 
                 </td>
-                <td>{{result.collect_dt}}</td>
-                <td>{{result.barcode}}</td>
+                <td>{{result.collect_ts}}</td>
+                <td>{{result.qrcode}}</td>
               </tr>
             </tbody>
           </table>
         </div>
+        </div>
         <h4>Additional Information:</h4>
-        {% if result.result == "DET" %}
+        {% if result.status_code == "DET" %}
           <!-- Information for positive patients -->
-        {% elif result.result == "INCON" %}
+        {% elif result.status_code == "INCON" %}
           <!-- inconclusive -->
-        {% elif result.result == "NDET" %}
+        {% elif result.status_code == "NDET" %}
           <!-- not detected -->
         {% else %}
           <!-- other statuses -->
