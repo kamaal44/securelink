@@ -33,12 +33,13 @@ def show_result():
         return redirect('/error')
 
     key = f"covid19/results/{barcode}-{dobstr}.json"
-    print (key)
+    
     try:
         obj = boto3.client('s3').get_object(Bucket=app.config["S3_BUCKET"], Key=key)
     except:
         return redirect('/error')
     result = json.load(obj["Body"])
+    print(f"{key} retrieved; status is {result['status_code']}")
     return render_template('results.html', result=result)
 
 @app.route('/error')
