@@ -1,4 +1,23 @@
 {% extends "layout.html" %}
+
+{% macro collapser(title, id) -%}
+    <div class="card">
+    
+    <h5 class="mb-0">
+      <button class="btn btn-link" data-toggle="collapse" data-target="#{{id}}" aria-expanded="true" aria-controls="{{id}}">
+        {{ title }}
+      </button>
+    </h5>
+    <div id="{{id}}" class="collapse " data-parent="#accordion">
+      <div class="card-body">
+        {{ caller() }}
+      </div>
+    </div>
+  </div>
+    
+
+{%- endmacro %}
+
 {% block content %}
      <div class="col-lg-10">
       <p><a href="/"><< Retrieve another result</a></p>
@@ -37,11 +56,39 @@
           </table>
         </div>
         </div>
-        <h4>Additional Information:</h4>
         {% if result.status_code == "DET" %}
           <!-- Information for positive patients -->
+          
+            <h4 class="alert-heading">What to do next:</h4>
+
+            <div id="accordion">
+              {% call collapser('For UW Medicine patients', id="uwmedpatients") %}
+                  <p style="font-weight: bold">Please visit <a href='https://www.uwmedicine.org/coronavirus'>https://www.uwmedicine.org/coronavirus</a> for updated information.</p>
+
+                  {% include "resources.html" %}
+              {% endcall %}
+              {% call collapser('For emergency responders', id="emr") %}
+                  <p style="font-weight: bold">Please visit <a href='https://www.uwmedicine.org/coronavirus'>https://www.uwmedicine.org/coronavirus</a> for updated information.</p>
+                  {% include "resources.html" %}
+              {% endcall %}
+            </div>
+  
+          
         {% elif result.status_code == "INCON" %}
           <!-- inconclusive -->
+            <h4 class="alert-heading">What to do next:</h4>
+
+            <div id="accordion">
+              {% call collapser('For UW Medicine patients', id="uwmedpatients") %}
+                  <p style="font-weight: bold">Please visit <a href='https://www.uwmedicine.org/coronavirus'>https://www.uwmedicine.org/coronavirus</a> for updated information.</p>
+
+                  {% include "resources.html" %}
+              {% endcall %}
+              {% call collapser('For emergency responders', id="emr") %}
+                  <p style="font-weight: bold">Please visit <a href='https://www.uwmedicine.org/coronavirus'>https://www.uwmedicine.org/coronavirus</a> for updated information.</p>
+                  {% include "resources.html" %}
+              {% endcall %}
+            </div>
         {% elif result.status_code == "NDET" %}
           <!-- not detected -->
         {% else %}
