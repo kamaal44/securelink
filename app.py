@@ -1,11 +1,17 @@
 import re
 import json
 import boto3
+import logging
 from datetime import datetime
 from flask import Flask, request, render_template, redirect
 app = Flask(__name__)
 
 app.config["S3_BUCKET"] = "dokku-stack-phi"
+
+
+gunicorn_logger = logging.getLogger('gunicorn.error')
+app.logger.handlers = gunicorn_logger.handlers
+app.logger.setLevel(gunicorn_logger.level)
 
 @app.route('/')
 def home():
@@ -39,7 +45,7 @@ def show_result():
     except:
         return redirect('/error')
     result = json.load(obj["Body"])
-    print(f"{key} retrieved; status is {result['status_code']}")
+    app.logger.info(f"{key} retrieved; status is {result['status_code']}")
     return render_template('results.html', result=result)
 
 @app.route('/error')
