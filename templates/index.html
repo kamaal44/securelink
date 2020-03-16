@@ -5,39 +5,50 @@
         <p>
           If you were tested for the SARS-CoV-2 (COVID-19) Virus, you can use this portal to retrieve the status and/or results of your testing. Only patients who received a test retrieval card at the time of their test are eligible to retrieve their results via this portal.  
         <h4>To retrieve your test result, please enter the 16 digit retrieval code and your date of birth below:</h4>
-        <div id="form-card">
-          <form action="/result" method="post" id="submitform">
-            <div class="form-group col-md-12">
-              <label for="barcode">Retrieval Code <a id="showexample" href="#">(Where can I find this?)</a></label>
-              <div id="example">
-                This is listed on the test retrieval card, given to you at the time of testing:
-                <img src="/static/img/example.png" width="400px" class="m-3" />
-              </div>
-              <input class="form-control"
-                  id='barcode'
-                  name="barcode"
-                  aria-describedby="barcode"
-                  placeholder="####-####-####-####"
-                  value="{{ barcode }}"
-                  type="text"
-              />
-              <small id="barcodeHelp" class="form-text text-muted">16-digit retrieval code from your test retrieval card.</small>
+        <div class='row'>
+          <div class='col-lg-10'>
+            <div id="form-card">
+              <form action="/result" method="post" id="submitform">
+                <div class="form-group col-md-12">
+                  <label for="barcode">Retrieval Code <a id="showexample" href="#">(Where can I find this?)</a></label>
+                  <div id="example">
+                    This is listed on the test retrieval card, given to you at the time of testing:
+                    <img src="/static/img/example.png" width="400px" class="m-3" />
+                  </div>
+                  <input class="form-control"
+                      id='barcode'
+                      name="barcode"
+                      aria-describedby="barcode"
+                      placeholder="####-####-####-####"
+                      value="{{ barcode }}"
+                      type="text"
+                  />
+                  <small id="barcodeHelp" class="form-text text-muted">16-digit retrieval code from your test retrieval card.</small>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="dob">Date of Birth</label>
+                  <input class="form-control"
+                    id='dob'
+                    name="dob"
+                    aria-describedby="dob"
+                    placeholder="MM/DD/YYYY"
+                  / >
+                  <small id="barcodeHelp" class="form-text text-muted">The date of birth for the patient tested.</small>
+                </div>
+                <div class="form-group col-md-12">
+                  <button type="submit" class="btn btn-secondary float-right">Click here to retrieve results</button>
+                </div>
+              </form>
             </div>
-            <div class="form-group col-md-6">
-              <label for="dob">Date of Birth</label>
-              <input class="form-control"
-                id='dob'
-                name="dob"
-                aria-describedby="dob"
-                placeholder="MM/DD/YYYY"
-              / >
-              <small id="barcodeHelp" class="form-text text-muted">The date of birth for the patient tested.</small>
-            </div>
-            <div class="form-group col-md-12">
-              <button type="submit" class="btn btn-secondary float-right">Click here to retrieve results</button>
-            </div>
-          </form>
+          </div>
+
         </div>
+          <div class='row'>
+            <div class='col-lg-10'>
+              <div class='card card-body bg-light'>
+                <p><span class='font-weight-bold'>If you have lost your barcode or your access code does not show the status of your test after 48 hours</span>, please call the UW Medicine COVID-19 Patient Test Results line at 206 XXX-XXXX. Please do <b>not</b> call if your test is shown as "in process" or "pending".</p>
+            </div>
+          </div>        
         <script>
         $(document).ready(
           $("#showexample").click(function () {
