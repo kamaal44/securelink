@@ -4,9 +4,19 @@ import boto3
 import logging
 from datetime import datetime
 from flask import Flask, request, render_template, redirect
-app = Flask(__name__)
 
+from flask_limiter import Limiter
+from flask_limiter.util import get_ipaddr
+
+app = Flask(__name__)
 app.config["S3_BUCKET"] = "dokku-stack-phi"
+
+# set up rate limiting
+limiter = Limiter(
+    app,
+    key_func=get_ipaddr,
+    default_limits=["100 per hour"]
+)
 
 
 gunicorn_logger = logging.getLogger('gunicorn.error')
