@@ -8,7 +8,14 @@ from flask import Flask, request, render_template, redirect
 from flask_limiter import Limiter
 from flask_limiter.util import get_ipaddr
 
+from flask_talisman import Talisman
+
 app = Flask(__name__)
+
+# flask-talisman adds additional best-practice security considerations
+# note that force_https is off because of our proxy
+Talisman(app, content_security_policy=None, force_https=False)
+
 app.config["S3_BUCKET"] = "dokku-stack-phi"
 
 # set up rate limiting
