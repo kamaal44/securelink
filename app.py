@@ -34,7 +34,6 @@ def home():
 def show_result():
     barcode = request.form['barcode']
     dob = request.form['dob']
-
     if not re.match(r'(.{4})-(.{4})-(.{4})-(.{4})', barcode):
         return redirect("/")
 
@@ -44,12 +43,11 @@ def show_result():
     try:
         dobdt = datetime.strptime(dob, "%m/%d/%Y")    
         dobstr = dobdt.strftime('%Y-%m-%d')
-        barcode = barcode.replace("-", "")
+        barcode = barcode.replace("-", "").upper()
     except:
         return redirect('/error')
 
     key = f"covid19/results/{barcode}-{dobstr}.json"
-    
     try:
         obj = boto3.client('s3').get_object(Bucket=app.config["S3_BUCKET"], Key=key)
     except:

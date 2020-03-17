@@ -22,6 +22,7 @@
                       placeholder="####-####-####-####"
                       value="{{ barcode }}"
                       type="text"
+                      style="text-transform:uppercase"
                   />
                   <small id="barcodeHelp" class="form-text text-muted">16-digit retrieval code from your test retrieval card.</small>
                 </div>
@@ -64,7 +65,7 @@
         }, "Please enter a valid 16-digit barcode.");
 
         jQuery.validator.addMethod("validChecksum", function(value) {
-            value = value.replace(/-/g, "")
+            value = value.replace(/-/g, "").toUpperCase()
             str = value.slice(0,15)
             checksum = value.slice(-1)
             return md5(str)[0] == checksum            
