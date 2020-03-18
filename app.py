@@ -4,11 +4,11 @@ import boto3
 import logging
 from datetime import datetime
 from flask import Flask, request, render_template, redirect
-
 from flask_limiter import Limiter
 from flask_limiter.util import get_ipaddr
-
 from flask_talisman import Talisman
+
+from .utils import log_status_to_db
 
 app = Flask(__name__)
 
@@ -17,6 +17,7 @@ app = Flask(__name__)
 Talisman(app, content_security_policy=None, force_https=False)
 
 app.config["S3_BUCKET"] = "dokku-stack-phi"
+app.config["DB_TABLENAME"] = "securelink.retrieval-status"
 
 # set up rate limiting
 limiter = Limiter(
@@ -60,7 +61,11 @@ def show_result():
     except:
         return redirect('/error')
     result = json.load(obj["Body"])
+
+    # status logging
     app.logger.info(f"{key} retrieved; status is {result['status_code']}")
+    log_status_to_db(barcode, result['status_code'])
+
     return render_template('results.html', result=result)
 
 @app.route('/error')
