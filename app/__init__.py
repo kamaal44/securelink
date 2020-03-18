@@ -17,7 +17,7 @@ app = Flask(__name__)
 Talisman(app, content_security_policy=None, force_https=False)
 
 app.config["S3_BUCKET"] = "dokku-stack-phi"
-app.config["DB_TABLENAME"] = "securelink.retrieval-status"
+app.config["DB_TABLENAME"] = "securelink.event_log"
 
 # set up rate limiting
 limiter = Limiter(
