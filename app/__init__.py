@@ -3,7 +3,7 @@ import json
 import boto3
 import logging
 from datetime import datetime
-from flask import Flask, request, render_template, redirect
+from flask import Flask, request, render_template, redirect, Response, abort
 from flask_limiter import Limiter
 from flask_limiter.util import get_ipaddr
 from flask_talisman import Talisman
@@ -71,3 +71,25 @@ def show_result():
 @app.route('/error')
 def error():
     return render_template('error.html')
+
+
+@app.route('/pdfreport', methods=['POST'])
+def get_pdf_report():
+    barcode = request.form['barcode']
+    dob = request.form['dob']
+    
+    if not re.match(r'.{16}', barcode):
+        return abort(404)
+
+    if not re.match(r'(\d{4})-(\d{2})-(\d{2})', dob):
+        return abort(404)
+
+    key = f"covid19/pdfreports/{barcode}-{dob}.pdf"
+    try:
+        res = boto3.client('s3').get_object(Bucket=app.config['S3_BUCKET'], Key=key)
+    except:
+        return abort(404)
+
+    return Response(res['Body'].read(), 
+        mimetype='application/pdf', 
+        headers={"Content-Disposition": f"attachment;filename={barcode}-{dob}.pdf"})

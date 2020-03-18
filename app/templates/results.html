@@ -31,6 +31,7 @@
                 <th>Test Result</th>
                 <th>Collected Date</th>
                 <th>Retrieval Code</th>
+                <th>Report</th>
               </tr>
             </thead>
             <tbody>
@@ -51,6 +52,13 @@
                 </td>
                 <td>{{result.collect_ts}}</td>
                 <td>{{result.qrcode}}</td>
+                <td>
+                  <form action='/pdfreport' method="post" class='form'>
+                    <input type="hidden" name="barcode" value="{{result.qrcode}}">
+                    <input type="hidden" name="dob" value="{{result.birth_date}}">
+                    <input type='submit' class='btn btn-info btn-sm' value="PDF" />
+                  </form>
+                </td>
               </tr>
             </tbody>
           </table>
