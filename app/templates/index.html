@@ -70,7 +70,7 @@
             value = value.replace(/-/g, "").toUpperCase()
             str = value.slice(0,15)
             checksum = value.slice(-1)
-            return md5(str)[0] == checksum            
+            return md5(str).toUpperCase()[0] == checksum            
         }, "Please double check barcode entry.");
 
         jQuery.validator.addMethod("validDob", function(value) {
