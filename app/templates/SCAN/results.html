@@ -1,0 +1,91 @@
+{% extends "scan/layout.html" %}
+
+{% macro collapser(title, id) -%}
+    <div class="card">
+    
+    <h5 class="mb-0">
+      <button class="btn btn-link" data-toggle="collapse" data-target="#{{id}}" aria-expanded="true" aria-controls="{{id}}">
+        {{ title }}
+      </button>
+    </h5>
+    <div id="{{id}}" class="collapse " data-parent="#accordion">
+      <div class="card-body">
+        {{ caller() }}
+      </div>
+    </div>
+  </div>
+    
+
+{%- endmacro %}
+
+{% block content %}
+     <div class="col-lg-10">
+      <p><a href="/"><< Retrieve another result</a></p>
+
+        <div id="result-card">
+          <div class="table-responsive">
+          <table class="table col-sm-12">
+            <thead>
+              <tr>
+                <th class='w-25'>Name <br/><span style="font-size: 10pt">(Date of Birth)</span></th>
+                <th>Test Result</th>
+                <th>Collected Date</th>
+                <th>Retrieval Code</th>
+                <th>Report</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{result.pat_name}}<br/>({{result.birth_date}})</td>
+                <td>
+                  {% if result.status_code == "DET" %}
+                    <span style="color: red; font-weight: bold">
+                  {% elif result.status_code == "INCON" %}
+                    <span style="color: dark  orange">
+                  {% elif result.status_code == "NDET" %}
+                    <span style="color: blue">
+                  {% else %}
+                    <span>
+                  {% endif %}
+                      {{result.status}}
+                    </span> 
+                </td>
+                <td>{{result.collect_ts}}</td>
+                <td>{{result.qrcode}}</td>
+                <td>
+                  <form action='/pdfreport' method="post" class='form'>
+                    <input type="hidden" name="barcode" value="{{result.qrcode}}">
+                    <input type="hidden" name="dob" value="{{result.birth_date}}">
+                    <input type="hidden" name="source" value="scan">
+                    <input type='submit' class='btn btn-info btn-sm' value="PDF" />
+                  </form>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        </div>
+        {% if result.status_code == "DET" %}
+          <!-- Information for positive patients -->
+          
+            <h4 class="alert-heading">What to do next:</h4>
+
+           
+          
+        {% elif result.status_code == "INCON" %}
+          <!-- inconclusive -->
+            <h4 class="alert-heading">What to do next:</h4>
+
+         
+        {% elif result.status_code == "NDET" %}
+          <!-- not detected -->
+            <h4 class="alert-heading">What to do next:</h4>
+
+        {% else %}
+          <!-- other statuses -->
+          <h4 class="alert-heading">When can I expect results?</h4>
+          
+        {% endif %}
+        
+      </div>
+{% endblock %}

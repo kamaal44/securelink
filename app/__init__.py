@@ -8,7 +8,7 @@ from flask_limiter import Limiter
 from flask_limiter.util import get_ipaddr
 from flask_talisman import Talisman
 
-from .utils import log_status_to_db
+from .utils import log_status_to_db, validate_form_fields
 
 app = Flask(__name__)
 
@@ -37,25 +37,30 @@ def home():
     barcode = request.args.get('code', "")
     return render_template('index.html', barcode=barcode)
 
+@app.route('/scan')
+def scan_home():
+    # serve scan homepage
+    barcode = request.args.get('code', "")
+    return render_template('scan/index.html', barcode=barcode)
 
 @app.route('/result', methods=['POST'])
 def show_result():
-    barcode = request.form['barcode']
-    dob = request.form['dob']
-    if not re.match(r'(.{4})-(.{4})-(.{4})-(.{4})', barcode):
-        return redirect("/")
-
-    if not re.match(r'(\d{2})/(\d{2})/(\d{4})', dob):
-        return redirect("/")
-    
     try:
+        barcode = request.form['barcode'].replace("-", "").upper()
+        dob = request.form['dob']
+        source = request.form['source']
         dobdt = datetime.strptime(dob, "%m/%d/%Y")    
         dobstr = dobdt.strftime('%Y-%m-%d')
-        barcode = barcode.replace("-", "").upper()
     except:
         return redirect('/error')
-
-    key = f"covid19/results/{barcode}-{dobstr}.json"
+    
+    if not validate_form_fields(barcode, dobstr, source):
+        return redirect("/error")
+    
+    if source == "scan":
+        key = f"covid19/results-scan-study/{barcode}-{dobstr}.json"
+    else:
+        key = f"covid19/results/{barcode}-{dobstr}.json"
     try:
         obj = boto3.client('s3').get_object(Bucket=app.config["S3_BUCKET"], Key=key)
     except:
@@ -64,9 +69,13 @@ def show_result():
 
     # status logging
     app.logger.info(f"{key} retrieved; status is {result['status_code']}")
-    log_status_to_db(barcode, result['status_code'])
+    log_status_to_db(barcode, result['status_code'], source)
 
-    return render_template('results.html', result=result)
+    if source == "scan":
+        return render_template('scan/results.html', result=result)
+    else:
+        return render_template('results.html', result=result)
+
 
 @app.route('/error')
 def error():
@@ -77,14 +86,13 @@ def error():
 def get_pdf_report():
     barcode = request.form['barcode']
     dob = request.form['dob']
+    source = request.form['source']
+
+    if not validate_form_fields(barcode, dob, source):
+        return abort(404)
     
-    if not re.match(r'.{16}', barcode):
-        return abort(404)
-
-    if not re.match(r'(\d{4})-(\d{2})-(\d{2})', dob):
-        return abort(404)
-
-    key = f"covid19/pdfreports/{barcode}-{dob}.pdf"
+    key = f"covid19/results-scan-study/{barcode}-{dob}.pdf"
+    
     try:
         res = boto3.client('s3').get_object(Bucket=app.config['S3_BUCKET'], Key=key)
     except:
