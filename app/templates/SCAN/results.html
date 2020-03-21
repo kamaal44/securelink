@@ -38,11 +38,11 @@
               <tr>
                 <td>{{result.pat_name}}<br/>({{result.birth_date}})</td>
                 <td>
-                  {% if result.status_code == "DET" %}
+                  {% if result.status_code == "positive" %}
                     <span style="color: red; font-weight: bold">
-                  {% elif result.status_code == "INCON" %}
+                  {% elif result.status_code == "inconclusive" %}
                     <span style="color: dark  orange">
-                  {% elif result.status_code == "NDET" %}
+                  {% elif result.status_code == "negative" %}
                     <span style="color: blue">
                   {% else %}
                     <span>
@@ -65,21 +65,41 @@
           </table>
         </div>
         </div>
-        {% if result.status_code == "DET" %}
+        {% if result.status_code == "positive" %}
           <!-- Information for positive patients -->
 
             <h4 class="alert-heading">What to do next:</h4>
 
 
-
-        {% elif result.status_code == "INCON" %}
+        {% elif result.status_code == "inconclusive" %}
           <!-- inconclusive -->
             <h4 class="alert-heading">What to do next:</h4>
 
 
-        {% elif result.status_code == "NDET" %}
+
+        {% elif result.status_code == "negative" %}
           <!-- not detected -->
             <h4 class="alert-heading">What to do next:</h4>
+
+
+
+        {% elif result.status_code == "pending" %}
+        <!-- not detected -->
+          <h4 class="alert-heading">What to do next:</h4>
+
+
+
+        {% elif result.status_code == "not-received" %}
+        <!-- not detected -->
+          <h4 class="alert-heading">What to do next:</h4>
+
+
+
+        {% elif result.status_code == "never-tested" %}
+        <!-- not detected -->
+          <h4 class="alert-heading">What to do next:</h4>
+
+
 
         {% else %}
           <!-- other statuses -->
