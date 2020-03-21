@@ -49,14 +49,14 @@ def show_result():
         barcode = request.form['barcode'].replace("-", "").upper()
         dob = request.form['dob']
         source = request.form['source']
-        dobdt = datetime.strptime(dob, "%m/%d/%Y")    
+        dobdt = datetime.strptime(dob, "%m/%d/%Y")
         dobstr = dobdt.strftime('%Y-%m-%d')
     except:
         return redirect('/error')
-    
+
     if not validate_form_fields(barcode, dobstr, source):
         return redirect("/error")
-    
+
     if source == "scan":
         key = f"covid19/results-scan-study/{barcode}-{dobstr}.json"
     else:
@@ -90,14 +90,14 @@ def get_pdf_report():
 
     if not validate_form_fields(barcode, dob, source):
         return abort(404)
-    
+
     key = f"covid19/results-scan-study/{barcode}-{dob}.pdf"
-    
+
     try:
         res = boto3.client('s3').get_object(Bucket=app.config['S3_BUCKET'], Key=key)
     except:
         return abort(404)
 
-    return Response(res['Body'].read(), 
-        mimetype='application/pdf', 
+    return Response(res['Body'].read(),
+        mimetype='application/pdf',
         headers={"Content-Disposition": f"attachment;filename={barcode}-{dob}.pdf"})

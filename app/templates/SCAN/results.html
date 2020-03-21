@@ -2,7 +2,7 @@
 
 {% macro collapser(title, id) -%}
     <div class="card">
-    
+
     <h5 class="mb-0">
       <button class="btn btn-link" data-toggle="collapse" data-target="#{{id}}" aria-expanded="true" aria-controls="{{id}}">
         {{ title }}
@@ -14,7 +14,7 @@
       </div>
     </div>
   </div>
-    
+
 
 {%- endmacro %}
 
@@ -48,7 +48,7 @@
                     <span>
                   {% endif %}
                       {{result.status}}
-                    </span> 
+                    </span>
                 </td>
                 <td>{{result.collect_ts}}</td>
                 <td>{{result.qrcode}}</td>
@@ -67,16 +67,16 @@
         </div>
         {% if result.status_code == "DET" %}
           <!-- Information for positive patients -->
-          
+
             <h4 class="alert-heading">What to do next:</h4>
 
-           
-          
+
+
         {% elif result.status_code == "INCON" %}
           <!-- inconclusive -->
             <h4 class="alert-heading">What to do next:</h4>
 
-         
+
         {% elif result.status_code == "NDET" %}
           <!-- not detected -->
             <h4 class="alert-heading">What to do next:</h4>
@@ -84,8 +84,8 @@
         {% else %}
           <!-- other statuses -->
           <h4 class="alert-heading">When can I expect results?</h4>
-          
+
         {% endif %}
-        
+
       </div>
 {% endblock %}
