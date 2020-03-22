@@ -135,9 +135,18 @@ def get_pdf_report():
 
     try:
         res = boto3.client('s3').get_object(Bucket=app.config['S3_BUCKET'], Key=key)
+        return Response(res['Body'].read(),
+            mimetype='application/pdf',
+            headers={"Content-Disposition": f"attachment;filename={barcode}-{dob}.pdf"})
     except:
-        return abort(404)
+        try:
+            filepath = base / f"reports/{barcode}-{dob}.pdf"
+            with open(filepath, 'rb') as pdf_file:
+                res = pdf_file.read()
 
-    return Response(res['Body'].read(),
-        mimetype='application/pdf',
-        headers={"Content-Disposition": f"attachment;filename={barcode}-{dob}.pdf"})
+            return Response(res,
+                mimetype='application/pdf',
+                headers={'Content-Disposition': f'attachment;filename={barcode}-{dob}.pdf'})
+
+        except:
+            return abort(404)
