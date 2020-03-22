@@ -1,0 +1,24 @@
+{% extends "scan/layout.html" %}
+{% block content %}
+     <div class="col-lg-9">
+
+      <h3 style="color: darkred">Sample not yet received or no matching records found</h3>
+      <hr/>
+      <p>
+        <b><a href="#" onclick="history.go(-1)"><< Click here to go back and try again.</a></b>
+      </p>
+      <p>
+        Please type in the barcode given to you at the time of collection exactly as shown.
+        The date of birth must be entered for the patient who was tested.
+      </p>
+      <p>
+        <span class='font-weight-bold'>Note: Recently collected tests may not yet be available in SecureLink. Please check 12-24 hours after collection.</span>
+      </p>
+      <hr/>
+
+      <div class='card card-body bg-light'>
+          <p><span class='font-weight-bold'>If you have lost your barcode or you cannot access the status of your test</span>, please call the UW Medicine COVID-19 Patient Test Results line at (206) 520-8787.</p>
+      </div>
+
+     </div>
+{% endblock %}

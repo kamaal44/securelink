@@ -81,6 +81,9 @@ def show_result():
 def error():
     return render_template('error.html')
 
+@app.route('/scan/error')
+def scan_error():
+    return render_template('scan/error.html')
 
 @app.route('/pdfreport', methods=['POST'])
 def get_pdf_report():
