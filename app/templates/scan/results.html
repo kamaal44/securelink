@@ -65,47 +65,10 @@
           </table>
         </div>
         </div>
-        {% if result.status_code == "positive" %}
-          <!-- Information for positive patients -->
 
-            <h4 class="alert-heading">What to do next:</h4>
-
-
-        {% elif result.status_code == "inconclusive" %}
-          <!-- inconclusive -->
-            <h4 class="alert-heading">What to do next:</h4>
-
-
-
-        {% elif result.status_code == "negative" %}
-          <!-- not detected -->
-            <h4 class="alert-heading">What to do next:</h4>
-
-
-
-        {% elif result.status_code == "pending" %}
-        <!-- not detected -->
-          <h4 class="alert-heading">What to do next:</h4>
-
-
-
-        {% elif result.status_code == "not-received" %}
-        <!-- not detected -->
-          <h4 class="alert-heading">What to do next:</h4>
-
-
-
-        {% elif result.status_code == "never-tested" %}
-        <!-- not detected -->
-          <h4 class="alert-heading">What to do next:</h4>
-
-
-
-        {% else %}
-          <!-- other statuses -->
-          <h4 class="alert-heading">When can I expect results?</h4>
-
-        {% endif %}
-
+        <h4 class="alert-heading">What to do next:</h4>
+        <p>
+          Click here for your test results and helpful resources
+        </p>
       </div>
 {% endblock %}
