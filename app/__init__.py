@@ -98,6 +98,9 @@ def scan_show_result():
     try:
         obj = boto3.client('s3').get_object(Bucket=app.config["S3_BUCKET"], Key=key)
         result = json.load(obj["Body"])
+        # status logging
+        app.logger.info(f"{key} retrieved; status is {result['status_code']}")
+        log_status_to_db(barcode, result['status_code'], source)
 
     except ClientError:
         try:
@@ -106,12 +109,10 @@ def scan_show_result():
             with open(base / filepath, 'r') as json_file:
                 result = json.load(json_file)
 
+            app.logger.info(f"{key} retrieved; status is {result['status_code']}")
+
         except:
             return redirect('/scan/error')
-
-    # status logging
-    app.logger.info(f"{key} retrieved; status is {result['status_code']}")
-    # log_status_to_db(barcode, result['status_code'], source)
 
     return render_template('scan/results.html', result=result)
 
