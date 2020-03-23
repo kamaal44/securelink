@@ -53,7 +53,11 @@
                     <span>Result not yet received. In transit.</span>
 
                   {% elif result.status_code == "pending" %}
-                    <span>Result pending. Awaiting laboratory results</span>
+                    <span>
+                      Result pending. Awaiting laboratory results.
+                      COVID-19 test results will be available within 1-week of
+                      collection.
+                    </span>
 
                   {% elif result.status_code == "never-tested" %}
                     <span>This barcode will not be tested.</span>
