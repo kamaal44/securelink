@@ -82,7 +82,7 @@ def show_result():
 @app.route('/scan/result', methods=['POST'])
 def scan_show_result():
     try:
-        barcode = request.form['barcode'].replace("-", "").upper()
+        barcode = request.form['barcode'].upper()
         dob = request.form['dob']
         source = request.form['source']
         dobdt = datetime.strptime(dob, "%m/%d/%Y")
