@@ -1,1 +1,1 @@
-{"pat_num": "U1111111", "pat_name": "John Doe", "birth_date": "2020-01-01", "collect_ts": "2020-03-12 01:23:00", "qrcode": "FFFFFFFF", "status_code": "positive", "status": "Positive: SARS-CoV-2 (COVID-19) Virus detected"}
+{"pat_num": "U1111111", "pat_name": "John Doe", "birth_date": "2020-01-01", "collect_ts": "2020-03-12 01:23:00", "qrcode": "FFFFFFFF", "status_code": "positive"}
