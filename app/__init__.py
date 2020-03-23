@@ -122,7 +122,7 @@ def error():
 def scan_error():
     return render_template('scan/error.html')
 
-@app.route('/pdfreport', methods=['POST'])
+@app.route('/scan/pdfreport', methods=['POST'])
 def get_pdf_report():
     barcode = request.form['barcode']
     dob = request.form['dob']

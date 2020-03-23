@@ -68,7 +68,7 @@
                 <td>{{result.collect_ts}}</td>
                 <td>{{result.qrcode}}</td>
                 <td>
-                  <form action='/pdfreport' method="post" class='form'>
+                  <form action='/scan/pdfreport' method="post" class='form'>
                     <input type="hidden" name="barcode" value="{{result.qrcode}}">
                     <input type="hidden" name="dob" value="{{result.birth_date}}">
                     <input type="hidden" name="source" value="scan">
