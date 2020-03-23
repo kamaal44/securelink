@@ -8,6 +8,7 @@ from flask_limiter import Limiter
 from flask_limiter.util import get_ipaddr
 from flask_talisman import Talisman
 from pathlib import Path
+from botocore.exceptions import ClientError
 
 from .utils import log_status_to_db, validate_form_fields
 
@@ -98,7 +99,7 @@ def scan_show_result():
         obj = boto3.client('s3').get_object(Bucket=app.config["S3_BUCKET"], Key=key)
         result = json.load(obj["Body"])
 
-    except:
+    except ClientError:
         try:
             filepath = f"test_results/scan/{barcode}-{dobstr}.json"
 
@@ -138,7 +139,7 @@ def get_pdf_report():
         return Response(res['Body'].read(),
             mimetype='application/pdf',
             headers={"Content-Disposition": f"attachment;filename={barcode}-{dob}.pdf"})
-    except:
+    except ClientError:
         try:
             filepath = base / f"reports/{barcode}-{dob}.pdf"
             with open(filepath, 'rb') as pdf_file:
