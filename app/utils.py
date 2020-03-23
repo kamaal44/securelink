@@ -18,7 +18,7 @@ def log_status_to_db(barcode, status, source):
 
 def validate_form_fields(barcode, dob, source):
     # check for 8 or 16 digit barcode
-    if not re.match(r'^(.{8}|.{16})$', barcode):
+    if not re.match(r'^([A-F0-9]{8}$|.{16})$', barcode):
         return False
     # validate dob
     elif not re.match(r'(\d{4})-(\d{2})-(\d{2})', dob):
