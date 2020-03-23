@@ -78,7 +78,9 @@
 
         <h4 class="alert-heading">What to do next:</h4>
         <p>
-            Click the button below for your test results and helpful resources.
+          Click the button below for your full test report. The report may be
+          shared with your health care provider. It contains helpful resources
+          and important test information.
           <form action='/scan/pdfreport' method="post" class='form'>
             <input type="hidden" name="barcode" value="{{result.qrcode}}">
             <input type="hidden" name="dob" value="{{result.birth_date}}">
