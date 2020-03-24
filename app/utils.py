@@ -6,7 +6,7 @@ from datetime import datetime
 
 def log_status_to_db(barcode, status, source):
     dynamodb = boto3.resource('dynamodb', region_name='us-west-2')
-    table = dynamodb.Table(current_app.config["DB_TABLENAME"])
+    table = dynamodb.Table(current_app.config["DB_TABLENAME"][source])
     res = table.put_item(Item={
         'id': str(uuid.uuid4()),
         'barcode': barcode,
