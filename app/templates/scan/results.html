@@ -75,6 +75,7 @@
         </div>
         </div>
 
+        {% if result.status_code not in ("not-received", "pending") %}
         <h4 class="alert-heading">What to do next</h4>
         <p>
           Click the button below for your full test report. The report may be
@@ -86,5 +87,6 @@
             <input type='submit' class='btn btn-info btn-lg' value="Your test results (PDF)" />
           </form>
         </p>
+        {% endif %}
       </div>
 {% endblock %}
