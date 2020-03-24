@@ -52,7 +52,7 @@ def show_result():
     try:
         barcode = request.form['barcode'].replace("-", "").upper()
         dob = request.form['dob']
-        source = request.form['source']
+        source = "securelink"
         dobdt = datetime.strptime(dob, "%m/%d/%Y")
         dobstr = dobdt.strftime('%Y-%m-%d')
     except:
@@ -73,10 +73,7 @@ def show_result():
     app.logger.info(f"{key} retrieved; status is {result['status_code']}")
     log_status_to_db(barcode, result['status_code'], source)
 
-    if source == "scan":
-        return render_template('scan/results.html', result=result)
-    else:
-        return render_template('results.html', result=result)
+    return render_template('results.html', result=result)
 
 
 @app.route('/scan/result', methods=['POST'])
@@ -84,7 +81,7 @@ def scan_show_result():
     try:
         barcode = request.form['barcode'].upper()
         dob = request.form['dob']
-        source = request.form['source']
+        source = "scan"
         dobdt = datetime.strptime(dob, "%m/%d/%Y")
         dobstr = dobdt.strftime('%Y-%m-%d')
     except:
@@ -128,7 +125,7 @@ def scan_error():
 def get_pdf_report():
     barcode = request.form['barcode']
     dob = request.form['dob']
-    source = request.form['source']
+    source = "scan"
 
     if not validate_form_fields(barcode, dob, source):
         return abort(404)
