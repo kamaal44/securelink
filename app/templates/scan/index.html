@@ -73,7 +73,7 @@
 
 
         jQuery.validator.addMethod("validDob", function(value) {
-            return value.match(/^([0-9]{2})\/([0-9]{2})\/(19|20[0-9]{2})$/g)
+            return value.match(/([0-9]{2})\/([0-9]{2})\/(19|20[0-9]{2})/g)
         }, "Please enter a valid date of birth.");
 
 
