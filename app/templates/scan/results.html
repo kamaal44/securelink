@@ -1,0 +1,92 @@
+{% extends "scan/layout.html" %}
+
+{% macro collapser(title, id) -%}
+    <div class="card">
+
+    <h5 class="mb-0">
+      <button class="btn btn-link" data-toggle="collapse" data-target="#{{id}}" aria-expanded="true" aria-controls="{{id}}">
+        {{ title }}
+      </button>
+    </h5>
+    <div id="{{id}}" class="collapse " data-parent="#accordion">
+      <div class="card-body">
+        {{ caller() }}
+      </div>
+    </div>
+  </div>
+
+
+{%- endmacro %}
+
+{% block content %}
+     <div class="col-lg-10">
+      <p><a href="#" onclick="history.go(-1)">&lt;&lt; Retrieve another result</a></p>
+
+        <div id="result-card">
+          <div class="table-responsive">
+          <table class="table col-sm-12">
+            <thead>
+              <tr>
+                <th class='w-25'>Name <br/><span style="font-size: 10pt">(Date of Birth)</span></th>
+                <th>Test Result</th>
+                <th>Collected Date</th>
+                <th>Barcode</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{result.pat_name}}<br/>({{result.birth_date}})</td>
+                <td>
+                  {% if result.status_code == "positive" %}
+                    <span style="color: red; font-weight: bold">
+                      Positive: SARS-CoV-2 (COVID-19) Virus detected
+
+                  {% elif result.status_code == "inconclusive" %}
+                    <span style="color: darkorange">
+                      Inconclusive: SARS-CoV-2 (COVID-19) Virus may be present
+
+                  {% elif result.status_code == "negative" %}
+                    <span style="color: blue">
+                      Negative: SARS-CoV-2 (COVID-19) NOT detected
+
+                  {% elif result.status_code == "not-received" %}
+                    <span>Sample in-transit and not yet received.
+
+                  {% elif result.status_code == "pending" %}
+                    <span>
+                      Result pending. Awaiting laboratory results.
+                      COVID-19 test results will be available within 1-week of
+                      collection.
+
+                  {% elif result.status_code == "never-tested" %}
+                    <span>Sample could not be tested.
+
+                  {% else %}
+                    <span>
+
+                  {% endif %}
+                    </span>
+                </td>
+                <td>{{result.collect_ts}}</td>
+                <td>{{result.qrcode}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        </div>
+
+        {% if result.status_code not in ("not-received", "pending") %}
+        <h4 class="alert-heading">What to do next</h4>
+        <p>
+          Click the button below for your full test report. The report may be
+          shared with your health care provider. It contains helpful resources
+          and important test information.
+          <form action='/scan/pdfreport' method="post" class='form'>
+            <input type="hidden" name="barcode" value="{{result.qrcode}}">
+            <input type="hidden" name="dob" value="{{result.birth_date}}">
+            <input type='submit' class='btn btn-info btn-lg' value="Your test results (PDF)" />
+          </form>
+        </p>
+        {% endif %}
+      </div>
+{% endblock %}
