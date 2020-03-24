@@ -30,7 +30,7 @@
                 <th class='w-25'>Name <br/><span style="font-size: 10pt">(Date of Birth)</span></th>
                 <th>Test Result</th>
                 <th>Collected Date</th>
-                <th>Retrieval Code</th>
+                <th>Barcode</th>
               </tr>
             </thead>
             <tbody>
@@ -50,17 +50,16 @@
                       Negative: SARS-CoV-2 (COVID-19) NOT detected
 
                   {% elif result.status_code == "not-received" %}
-                    <span>Result not yet received. In transit.</span>
+                    <span>Sample in-transit and not yet received.
 
                   {% elif result.status_code == "pending" %}
                     <span>
                       Result pending. Awaiting laboratory results.
                       COVID-19 test results will be available within 1-week of
                       collection.
-                    </span>
 
                   {% elif result.status_code == "never-tested" %}
-                    <span>This barcode will not be tested.</span>
+                    <span>Sample could not be tested.
 
                   {% else %}
                     <span>
@@ -76,7 +75,7 @@
         </div>
         </div>
 
-        <h4 class="alert-heading">What to do next:</h4>
+        <h4 class="alert-heading">What to do next</h4>
         <p>
           Click the button below for your full test report. The report may be
           shared with your health care provider. It contains helpful resources
