@@ -14,11 +14,15 @@ from .utils import log_status_to_db, validate_form_fields
 
 app = Flask(__name__)
 
+DEVELOPMENT = app.env == "development"
+
 # flask-talisman adds additional best-practice security considerations
 # note that force_https is off because of our proxy
 Talisman(app, content_security_policy=None, force_https=False)
 
-app.config["S3_BUCKET"] = "dokku-stack-phi"
+S3_BUCKET = boto3.resource("s3").Bucket("dokku-stack-phi")
+LOCAL_DATA = Path(__file__).resolve().parent.parent / "test_results"
+
 app.config["DB_TABLENAME"] = {
     "securelink": "securelink.event_log",
     "scan": "scan.event_log"
@@ -35,8 +39,6 @@ limiter = Limiter(
 gunicorn_logger = logging.getLogger('gunicorn.error')
 app.logger.handlers = gunicorn_logger.handlers
 app.logger.setLevel(gunicorn_logger.level)
-
-base = Path(__file__).resolve().parent.parent
 
 @app.route('/')
 def home():
@@ -67,14 +69,15 @@ def show_result():
     key = f"covid19/results/{barcode}-{dobstr}.json"
 
     try:
-        obj = boto3.client('s3').get_object(Bucket=app.config["S3_BUCKET"], Key=key)
+        result = json.load(fetch_data(key))
     except:
         return redirect('/error')
-    result = json.load(obj["Body"])
 
     # status logging
     app.logger.info(f"{key} retrieved; status is {result['status_code']}")
-    log_status_to_db(barcode, result['status_code'], source)
+
+    if not DEVELOPMENT:
+        log_status_to_db(barcode, result['status_code'], source)
 
     return render_template('results.html', result=result)
 
@@ -96,23 +99,15 @@ def scan_show_result():
     key = f"covid19/results-scan-study/{barcode}-{dobstr}.json"
 
     try:
-        obj = boto3.client('s3').get_object(Bucket=app.config["S3_BUCKET"], Key=key)
-        result = json.load(obj["Body"])
-        # status logging
-        app.logger.info(f"{key} retrieved; status is {result['status_code']}")
+        result = json.load(fetch_data(key))
+    except:
+        return redirect('/scan/error')
+
+    # status logging
+    app.logger.info(f"{key} retrieved; status is {result['status_code']}")
+
+    if not DEVELOPMENT:
         log_status_to_db(barcode, result['status_code'], source)
-
-    except ClientError:
-        try:
-            filepath = f"test_results/scan/{barcode}-{dobstr}.json"
-
-            with open(base / filepath, 'r') as json_file:
-                result = json.load(json_file)
-
-            app.logger.info(f"{key} retrieved; status is {result['status_code']}")
-
-        except:
-            return redirect('/scan/error')
 
     return render_template('scan/results.html', result=result)
 
@@ -138,22 +133,30 @@ def get_pdf_report():
         return abort(404)
 
     filename = f"{barcode}-{dob}-{lang}.pdf"
-    key = f"covid19/results-scan-study/{filename}"
 
     try:
-        res = boto3.client('s3').get_object(Bucket=app.config['S3_BUCKET'], Key=key)
-        return Response(res['Body'].read(),
-            mimetype='application/pdf',
-            headers={"Content-Disposition": f"attachment;filename={filename}"})
+        content = fetch_data(f"covid19/results-scan-study/{filename}")
+    except:
+        return abort(404)
+
+    return Response(content,
+        mimetype='application/pdf',
+        headers={"Content-Disposition": f"attachment;filename={filename}"})
+
+def fetch_data(key):
+    """
+    Fetch object *key* from the application's S3 bucket and return a readable
+    file.
+
+    If there's an error fetching from S3 (e.g. no credentials or key not
+    found), then **in development-mode only**, the object will be loaded from
+    the ``test_results/`` directory in the application root.
+    """
+    try:
+        return S3_BUCKET.Object(key).get()["Body"]
     except ClientError:
-        try:
-            filepath = base / f"reports/{filename}"
-            with open(filepath, 'rb') as pdf_file:
-                res = pdf_file.read()
-
-            return Response(res,
-                mimetype='application/pdf',
-                headers={'Content-Disposition': f'attachment;filename={filename}'})
-
-        except:
-            return abort(404)
+        if DEVELOPMENT:
+            assert ".." not in key
+            return open(LOCAL_DATA / key, "rb")
+        else:
+            raise
