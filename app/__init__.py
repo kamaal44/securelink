@@ -128,27 +128,32 @@ def scan_error():
 def get_pdf_report():
     barcode = request.form['barcode']
     dob = request.form['dob']
+    lang = request.form['lang']
     source = "scan"
 
     if not validate_form_fields(barcode, dob, source):
         return abort(404)
 
-    key = f"covid19/results-scan-study/{barcode}-{dob}.pdf"
+    if not lang in {"en"}:
+        return abort(404)
+
+    filename = f"{barcode}-{dob}-{lang}.pdf"
+    key = f"covid19/results-scan-study/{filename}"
 
     try:
         res = boto3.client('s3').get_object(Bucket=app.config['S3_BUCKET'], Key=key)
         return Response(res['Body'].read(),
             mimetype='application/pdf',
-            headers={"Content-Disposition": f"attachment;filename={barcode}-{dob}.pdf"})
+            headers={"Content-Disposition": f"attachment;filename={filename}"})
     except ClientError:
         try:
-            filepath = base / f"reports/{barcode}-{dob}.pdf"
+            filepath = base / f"reports/{filename}"
             with open(filepath, 'rb') as pdf_file:
                 res = pdf_file.read()
 
             return Response(res,
                 mimetype='application/pdf',
-                headers={'Content-Disposition': f'attachment;filename={barcode}-{dob}.pdf'})
+                headers={'Content-Disposition': f'attachment;filename={filename}'})
 
         except:
             return abort(404)
