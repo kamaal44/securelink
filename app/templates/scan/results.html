@@ -50,13 +50,16 @@
                       Negative: SARS-CoV-2 (COVID-19) NOT detected
 
                   {% elif result.status_code == "not-received" %}
-                    <span>Sample in-transit and not yet received.
+                    <span>
+                      Sample in-transit and not yet received. Sample status
+                      will be available after your sample has been received.
+                      Most samples are received within 3 days of collection.
 
                   {% elif result.status_code == "pending" %}
                     <span>
-                      Result pending. Awaiting laboratory results.
-                      COVID-19 test results will be available within 1-week of
-                      collection.
+                      Result pending. Awaiting laboratory results. Most
+                      COVID-19 test results will be available within 10–12 days
+                      of sample collection.
 
                   {% elif result.status_code == "never-tested" %}
                     <span>Sample could not be tested.
