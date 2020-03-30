@@ -139,6 +139,15 @@ label.error {
 
 }
 
+#methods-card{
+  background-color: #f5f1c7;
+  border: none;
+  
+}
+
+#methods-card button {
+  font-weight: normal !important;
+}
 /* ==========================================================================
    Helper classes
    ========================================================================== */
