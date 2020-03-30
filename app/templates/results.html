@@ -24,84 +24,68 @@
 
         <div id="result-card">
           <div class="table-responsive">
+            <table class="table col-sm-12">
+              <tr> {# name, dob #}
+                <th>Name (date of birth)</th>
+                <td>{{result.pat_name}}<br/>({{result.birth_date}})</td>
+              </tr>
+              
+              <tr> {# retrieval code #}
+                <th>Retrieval Code</th>
+                <td>{{ result.qrcode }}</td>
+              </tr>
+              <tr> {# test name #}
+                <th>Test Name</th>
+                <td>SARS-CoV-2 (COVID-19) Qualitative PCR</td>
+              </tr>
+              <tr> {# date collected #}
+                <th>Date collected</th>
+                <td>{{ result.collect_ts }}</td>
+              </tr>
+              <tr> {# date resulted #}
+                <th>Date resulted</th>
+                <td>{{ result.result_ts }}</td>
+                <td></td>
+              </tr>
+            </table>
 
-	    <table class="table col-sm-12">
-	      <tr> {# name, dob #}
-		<th>Name (date of birth)</th>
-		<td>{{result.pat_name}}<br/>({{result.birth_date}})</td>
-	      </tr>
-                <tr> {# result #}
-    <th>Your Result</th>
-    <td>
-                  {% if result.status_code == "DET" %}
-                    <span style="color: red; font-weight: bold">
-                  {% elif result.status_code == "INCON" %}
-                    <span style="color: dark  orange">
-                  {% elif result.status_code == "NDET" %}
-                    <span style="color: blue">
-                  {% else %}
-                    <span>
-                  {% endif %}
-                  {{result.status}}
-                    </span>
-    </td>
-        </tr>
-	      <tr> {# retrieval code #}
-		<th>Retrieval Code</th>
-		<td>{{ result.qrcode }}</td>
-	      </tr>
-	      <tr> {# test name #}
-		<th>Test Name</th>
-		<td>SARS-CoV-2 (COVID-19) Qualitative PCR</td>
-	      </tr>
-	      <tr> {# date collected #}
-		<th>Date collected</th>
-		<td>{{ result.collect_ts }}</td>
-	      </tr>
-	      <tr> {# date resulted #}
-		<th>Date resulted</th>
-		<td>{{ result.result_ts }}</td>
-		<td></td>
-	      </tr>
-	    </table>
+            {% call collapser('Methods statement', id="uwmedpatients") %}
+              <p><strong>Specimen type: </strong>Oropharyngeal or Nasopharyngeal Swab</p>
+              {% if 'cap_method' in result %}
+                {% macro oltg_link() %}
+            Additional details available here:
+            <a href="https://testguide.labmed.uw.edu/NCVQLT">
+              https://testguide.labmed.uw.edu/NCVQLT</a>
+            {% endmacro %}
+            <p>
+              {% if result.cap_method == 'LT7500' %}
+                Testing performed using the UW SARS-CoV-2 Real-time
+                RT-PCR assay. This laboratory developed test has
+                been validated in a CLIA high complexity clinical
+                laboratory under a Washington State emergency use
+                authorization (EUA). An inconclusive result is most
+                likely an indication of virus present near the limit
+                of detection and should be treated as a result of
+                Detected. {{ oltg_link() }}
+              {% elif result.cap_method.startswith('VPANT') %}
+                Performed using the Hologic SARS-CoV-2 Real-time
+                RT-PCR assay under an FDA Emergency Use
+                Authorization (EUA). {{ oltg_link() }}
+              {% elif result.cap_method.startswith('VC68') %}
+                Performed using the cobas® SARS-CoV-2 real-time
+                RT-PCR assay. This test has received Emergency Use
+                Authorization from the FDA. {{ oltg_link() }}
+              {% else %}
+                Methods statement not provided.
+              {% endif %}
+            </p>
+                {% endif %}
+                <p>University of Washington Department of Laboratory Medicine <br/>
+            Box 357110 1959 NE Pacific Street, NW120<br/>
+            Seattle, WA 98195-7110</p>
+              {% endcall %}
 
-	  {% call collapser('Methods statement', id="uwmedpatients") %}
-	    <p><strong>Specimen type: </strong>Oropharyngeal or Nasopharyngeal Swab</p>
-	    {% if 'cap_method' in result %}
-	      {% macro oltg_link() %}
-		Additional details available here:
-		<a href="https://testguide.labmed.uw.edu/NCVQLT">
-		  https://testguide.labmed.uw.edu/NCVQLT</a>
-		{% endmacro %}
-		<p>
-		  {% if result.cap_method == 'LT7500' %}
-		    Testing performed using the UW SARS-CoV-2 Real-time
-		    RT-PCR assay. This laboratory developed test has
-		    been validated in a CLIA high complexity clinical
-		    laboratory under a Washington State emergency use
-		    authorization (EUA). An inconclusive result is most
-		    likely an indication of virus present near the limit
-		    of detection and should be treated as a result of
-		    Detected. {{ oltg_link() }}
-		  {% elif result.cap_method.startswith('VPANT') %}
-		    Performed using the Hologic SARS-CoV-2 Real-time
-		    RT-PCR assay under an FDA Emergency Use
-		    Authorization (EUA). {{ oltg_link() }}
-		  {% elif result.cap_method.startswith('VC68') %}
-		    Performed using the cobas® SARS-CoV-2 real-time
-		    RT-PCR assay. This test has received Emergency Use
-		    Authorization from the FDA. {{ oltg_link() }}
-		  {% else %}
-		    Methods statement not provided.
-		  {% endif %}
-		</p>
-	      {% endif %}
-	      <p>University of Washington Department of Laboratory Medicine <br/>
-		Box 357110 1959 NE Pacific Street, NW120<br/>
-		Seattle, WA 98195-7110</p>
-	    {% endcall %}
-
-        </div>
+          </div>
         </div>
         {% if result.status_code == "DET" %}
           <!-- Information for positive patients -->
