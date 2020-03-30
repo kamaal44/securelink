@@ -30,6 +30,22 @@
 		<th>Name (date of birth)</th>
 		<td>{{result.pat_name}}<br/>({{result.birth_date}})</td>
 	      </tr>
+                <tr> {# result #}
+    <th>Your Result</th>
+    <td>
+                  {% if result.status_code == "DET" %}
+                    <span style="color: red; font-weight: bold">
+                  {% elif result.status_code == "INCON" %}
+                    <span style="color: dark  orange">
+                  {% elif result.status_code == "NDET" %}
+                    <span style="color: blue">
+                  {% else %}
+                    <span>
+                  {% endif %}
+                  {{result.status}}
+                    </span>
+    </td>
+        </tr>
 	      <tr> {# retrieval code #}
 		<th>Retrieval Code</th>
 		<td>{{ result.qrcode }}</td>
@@ -46,22 +62,6 @@
 		<th>Date resulted</th>
 		<td>{{ result.result_ts }}</td>
 		<td></td>
-	      </tr>
-	      <tr> {# result #}
-		<th>Your Result</th>
-		<td>
-                  {% if result.status_code == "DET" %}
-                    <span style="color: red; font-weight: bold">
-                  {% elif result.status_code == "INCON" %}
-                    <span style="color: dark  orange">
-                  {% elif result.status_code == "NDET" %}
-                    <span style="color: blue">
-                  {% else %}
-                    <span>
-                  {% endif %}
-                  {{result.status}}
-                    </span>
-		</td>
 	      </tr>
 	    </table>
 
