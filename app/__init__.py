@@ -44,7 +44,8 @@ app.logger.setLevel(gunicorn_logger.level)
 def home():
     # serve homepage
     barcode = request.args.get('code', "")
-    return render_template('index.html', barcode=barcode)
+    dob = request.args.get('dob', "")
+    return render_template('index.html', barcode=barcode, dob=dob)
 
 @app.route('/scan')
 def scan_home():
