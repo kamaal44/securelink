@@ -91,16 +91,45 @@
             <input type='submit' class='btn btn-info btn-lg' value="Your test results (PDF)" />
           </form>
         </p>
+        <hr>
+        <span lang="es">
+          <h4 class="alert-heading">Pasos siguientes</h4>
+          <p>
+            Haga clic en el botón de abajo para obtener el informe completo de
+            su análisis. Puede compartir el informe con su proveedor de atención
+            médica, dado que incluye recursos útiles e información importante
+            sobre el análisis.
+            <form action='/scan/pdfreport' method="post" class='form'>
+              <input type="hidden" name="barcode" value="{{result.qrcode}}">
+              <input type="hidden" name="dob" value="{{result.birth_date}}">
+              <input type="hidden" name="lang" value="es">
+              <input type='submit' class='btn btn-info btn-lg' value="Resultados de su análisis (PDF)" />
+            </form>
+          </p>
+        </span>
+        <hr>
+        <span lang="so">
+          <h4 class="alert-heading">Maxaa xiga</h4>
+          <p>
+            Waxa aad riixdaa badhanka hoose si aad u buuxiso warbixinta
+            shaybaadhka. Warbixinta waxaa lala wadaagi karaa daryeelka caafimaad
+            bixiye. Waxa ku jira khayraad iyo macluumaad muhiim ah oo
+            shaybaadhka ah.
+            <form action='/scan/pdfreport' method="post" class='form'>
+              <input type="hidden" name="barcode" value="{{result.qrcode}}">
+              <input type="hidden" name="dob" value="{{result.birth_date}}">
+              <input type="hidden" name="lang" value="so">
+              <input type='submit' class='btn btn-info btn-lg' value="Natiijada shaybaadhkaagii (PDF)" />
+            </form>
+          </p>
+        </span>
+        <hr>
         <p>
-          <span lang="es">¡Próximamente!</span>
-          •
           <span lang="vi">Sắp có!</span>
           •
           <span lang="ru">Скоро появиться!</span>
           •
           <span lang="ko">곧옵니다!</span>
-          •
-          <span lang="so">Goordhow Filo!</span>
           •
           <span lang="am">በቅርብ ቀን!</span>
           •
