@@ -130,7 +130,7 @@ def get_pdf_report():
     if not validate_form_fields(barcode, dob, source):
         return abort(404)
 
-    if not lang in {"en"}:
+    if not lang in {"en", "es", "vi", "zh-Hans"}:
         return abort(404)
 
     filename = f"{barcode}-{dob}-{lang}.pdf"
