@@ -91,11 +91,54 @@
             <input type='submit' class='btn btn-info btn-lg' value="Your test results (PDF)" />
           </form>
         </p>
+        <hr>
+        <span lang="es">
+          <h4 class="alert-heading">Próximos pasos a seguir</h4>
+          <p>
+            Haga clic en el botón a continuación para consultar el informe
+            completo de la prueba. Este informe se puede compartir con su
+            proveedor de atención médica. Contiene recursos útiles e información
+            importante sobre la prueba.
+            <form action='/scan/pdfreport' method="post" class='form'>
+              <input type="hidden" name="barcode" value="{{result.qrcode}}">
+              <input type="hidden" name="dob" value="{{result.birth_date}}">
+              <input type="hidden" name="lang" value="es">
+              <input type='submit' class='btn btn-info btn-lg' value="Los resultados de su prueba (PDF)" />
+            </form>
+          </p>
+        </span>
+        <hr>
+        <span lang="zh-Hans">
+          <h4 class="alert-heading">接下来怎么做</h4>
+          <p>
+            单击下方按钮获取您的完整检测报告。该报告可供您的医护提供者查阅。
+            其中包含有用资源和重要检测信息。
+            <form action='/scan/pdfreport' method="post" class='form'>
+              <input type="hidden" name="barcode" value="{{result.qrcode}}">
+              <input type="hidden" name="dob" value="{{result.birth_date}}">
+              <input type="hidden" name="lang" value="zh-Hans">
+              <input type='submit' class='btn btn-info btn-lg' value="您的检测结果 (PDF)" />
+            </form>
+          </p>
+        </span>
+        <hr>
+        <span lang="vi">
+          <h4 class="alert-heading">Làm gì tiếp theo</h4>
+          <p>
+            Nhấp vào nút bên dưới để nhận báo cáo xét nghiệm đầy đủ. Quý vị có
+            thể chia sẻ báo cáo với nhà cung cấp dịch vụ chăm sóc sức khỏe của
+            mình. Báo cáo gồm những nguồn lực hữu ích và thông tin xét nghiệm
+            quan trọng.
+            <form action='/scan/pdfreport' method="post" class='form'>
+              <input type="hidden" name="barcode" value="{{result.qrcode}}">
+              <input type="hidden" name="dob" value="{{result.birth_date}}">
+              <input type="hidden" name="lang" value="vi">
+              <input type='submit' class='btn btn-info btn-lg' value="Kết quả xét nghiệm (PDF) của quý vị" />
+            </form>
+          </p>
+        </span>
+        <hr>
         <p>
-          <span lang="es">¡Próximamente!</span>
-          •
-          <span lang="vi">Sắp có!</span>
-          •
           <span lang="ru">Скоро появиться!</span>
           •
           <span lang="ko">곧옵니다!</span>
@@ -107,8 +150,6 @@
           <span lang="fil">Malapit na!</span>
           •
           <span lang="ti">አብ ቀረባ እዋን!</span>
-          •
-          <span lang="zh-Hans">持续更新中!</span>
           •
           <span lang="zh-Hant">持續更新中!</span>
           •
