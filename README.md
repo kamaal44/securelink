@@ -1,8 +1,12 @@
 # Securelink
 
 ## Running locally
+To install the dependencies, run:
 ```sh
 pip install -r requirements.txt
-export FLASK_ENV=development
-python run.py
+```
+
+To run the app, run:
+```sh
+FLASK_ENV=development python run.py
 ```
