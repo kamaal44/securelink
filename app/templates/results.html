@@ -180,7 +180,9 @@
             </ul>
           </p>
           <h4 class="alert-heading">Whom should I contact if I think there is an error?</h4>
-          <p><span class='font-weight-bold'>If you have lost your barcode or your access code does not show the status of your test after 48 hours</span>, please call the UW Medicine COVID-19 Patient Test Results line at (206) 520-8787. Please do <b>not</b> call if your test is shown as "in process" or "pending".</p>
+
+	  {% include "followup_if_error.html" %}
+
         {% endif %}
 
       </div>
