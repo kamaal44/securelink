@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 
-{% macro collapser(title, id) -%}
+{% macro collapser(title, id, collapse=True) -%}
     <div class="card" id="{{id}}-card">
 
     <h5 class="mb-0">
@@ -8,7 +8,7 @@
         {{ title }}
       </button>
     </h5>
-    <div id="{{id}}" class="collapse " data-parent="#accordion">
+    <div id="{{id}}" {% if collapse %}class="collapse"{% endif %} data-parent="#accordion">
       <div class="card-body">
         {{ caller() }}
       </div>
@@ -114,7 +114,7 @@
                   {% endcall %}
           </div>
         </div>
-        {% if result.status_code in ['DET', 'NDET', 'NDET'] %}
+        {% if result.status_code in ['DET', 'INCON', 'NDET'] %}
           <!-- Information for final result -->
 
         <h4 class="alert-heading">What to do next:</h4>
@@ -134,6 +134,57 @@
           {% call collapser('For Emergency Responders', id="emr") %}
             <p style="font-weight: bold">Please visit <a href="http://www.kingcounty.gov/ems/test-info">http://www.kingcounty.gov/ems/test-info</a> for updated information on interpreting your test result, next steps regarding precautions and communicating with your agency’s health officer, as well as additional COVID-19 resources.
             </p>
+          {% endcall %}
+
+          {% call collapser('King County Contact Tracing Program', id="contacttracing") %}
+
+	    <ul>
+              {% if result.status_code == 'DET' %}
+		<li><strong>This result means you have COVID-19.</strong></li>
+	      <li><strong>To protect yourself and others</strong> you
+		should not go out or be in contact with people who do
+		not have COVID-19 until at least 10 days after your
+		symptoms first appeared AND until you have been
+		without a fever for at least 3 days AND your cough and
+		breathing are improved.
+	      </li>
+              {% elif result.status_code == 'INCON' %}
+		<li><strong>This result means you most likely have
+		  COVID-19</strong> with virus detected at a low
+		  level.
+		</li>
+	      <li><strong>To protect yourself and others</strong> you
+		should not go out or be in contact with people who do
+		not have COVID-19 until at least 10 days after your
+		symptoms first appeared AND until you have been
+		without a fever for at least 3 days AND your cough and
+		breathing are improved.
+	      </li>
+	      {% else %}
+		<li>Although your test is negative, you may still have COVID-19.</li>
+	      <li><strong>To protect yourself and others</strong> you
+		should not go out until at least 14 days after your
+		last contact with someone who has COVID-19.  If you
+		live with one or more people with COVID-19, you need
+		to stay at home until 14 days after the everyone with
+		COVID-19 finishes their time in isolation.</li>
+	      {% endif %}
+	      <li>Watch for symptoms such as fever, cough, or trouble
+		breathing. Call your doctor for advice if you develop
+		new symptoms or your symptoms get worse.  If you do not
+		have a doctor, call the health department at (206)
+		477-3977.</li>
+	      <li>Stay at home except to get medical care and avoid
+		contact with people who have not tested positive for
+		COVID-19.</li>
+	    </ul>
+
+	    <p>For more information on COVID-19 and staying in isolation, visit
+	      <a href="https://www.kingcounty.gov/depts/health/covid-19/checkin.aspx">
+		this resource
+	      </a> or call (206) 477-3977.
+	    </p>
+
           {% endcall %}
 
         </div>
