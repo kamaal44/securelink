@@ -3,7 +3,7 @@ import json
 import boto3
 import logging
 from datetime import datetime
-from flask import Flask, request, render_template, redirect, Response, abort
+from flask import Flask, request, render_template, redirect, Response, abort, url_for
 from flask_limiter import Limiter
 from flask_limiter.util import get_ipaddr
 from flask_talisman import Talisman
@@ -71,6 +71,8 @@ def show_result():
 
     try:
         result = json.load(fetch_data(key))
+        import pprint
+        pprint.pprint(result)
     except:
         return redirect('/error')
 
@@ -81,6 +83,36 @@ def show_result():
         log_status_to_db(barcode, result['status_code'], source)
 
     return render_template('results.html', result=result)
+
+
+@app.route('/result_dev', methods=['GET'])
+def show_result_dev():
+
+    if not DEVELOPMENT:
+        return redirect('/')
+
+    barcode = 'FFFFFFFFFFFFFFF7'
+    dob = '01/01/2020'
+    source = "securelink"
+    dobdt = datetime.strptime(dob, "%m/%d/%Y")
+    dobstr = dobdt.strftime('%Y-%m-%d')
+
+    result = {
+        'birth_date': '2020-01-01',
+        'cap_method': request.args.get('cap_method', 'LT7500'),
+        'collect_ts': '2020-03-12 01:23:00',
+        'pat_name': 'John Doe',
+        'pat_num': 'U1111111',
+        'qrcode': 'FFFFFFFFFFFFFFF7',
+        'result_translation': 'Detected',
+        'result_ts': '2020-03-14 14:32:00',
+        'result_value': 'DET',
+        'spot': 'EVSPS',
+        'status': 'Positive: SARS-CoV-2 (COVID-19) Virus detected',
+        'status_code': request.args.get('status_code', 'DET'),
+    }
+
+    return render_template('results.html', result=result, devmode=True)
 
 
 @app.route('/scan/result', methods=['POST'])

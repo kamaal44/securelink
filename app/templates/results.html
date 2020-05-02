@@ -19,7 +19,19 @@
 {%- endmacro %}
 
 {% block content %}
-     <div class="col-lg-10">
+  <div class="col-lg-10">
+
+    {% if devmode %}
+      {% for status_code in ['DET', 'INCON', 'NDET', 'other'] %}
+	{% for cap_method in ['LT7500', 'VPANT', 'VC68', 'other'] %}
+	  <a href="{{ url_for('show_result_dev', status_code=status_code, cap_method=cap_method)}}">
+	    {{ status_code }},{{ cap_method }}
+	  </a>
+	{% endfor %}
+	<br/>
+      {% endfor %}
+    {% endif %}
+
       <p><a href="#" onclick="history.go(-1)">&lt;&lt; Retrieve another result</a></p>
 
         <div id="result-card">
@@ -35,14 +47,14 @@
                   {% if result.status_code == "DET" %}
                     <span style="color: red; font-weight: bold">
                   {% elif result.status_code == "INCON" %}
-                    <span style="color: dark  orange">
+                    <span style="color: red; font-weight: bold">
                   {% elif result.status_code == "NDET" %}
                     <span style="color: blue">
                   {% else %}
                     <span>
                   {% endif %}
                       {{result.status}}
-                    </span> 
+                    </span>
                 </td>
               </tr>
 
