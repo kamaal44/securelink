@@ -22,8 +22,8 @@
   <div class="col-lg-10">
 
     {% if devmode %}
-      {% for status_code in ['DET', 'INCON', 'NDET', 'other'] %}
-	{% for cap_method in ['LT7500', 'VPANT', 'VC68', 'other'] %}
+      {% for status_code in ['DET', 'INCON', 'NDET', 'other_status'] %}
+	{% for cap_method in ['LT7500', 'VPANT', 'VC68', 'other_method'] %}
 	  <a href="{{ url_for('show_result_dev', status_code=status_code, cap_method=cap_method)}}">
 	    {{ status_code }},{{ cap_method }}
 	  </a>
@@ -114,57 +114,31 @@
                   {% endcall %}
           </div>
         </div>
-        {% if result.status_code == "DET" %}
-          <!-- Information for positive patients -->
+        {% if result.status_code in ['DET', 'NDET', 'NDET'] %}
+          <!-- Information for final result -->
 
-            <h4 class="alert-heading">What to do next:</h4>
+        <h4 class="alert-heading">What to do next:</h4>
 
-            <div id="accordion">
-              {% call collapser('For UW Medicine Patients', id="uwmedpatients") %}
-                  <p style="font-weight: bold">
-                    For specific information about what to do after receiving your result, visit <a href='https://www.uwmedicine.org/coronavirus/follow-up-instructions'>https://www.uwmedicine.org/coronavirus/follow-up-instructions</a>.
-                  </p>
+        <div id="accordion">
+          {% call collapser('For UW Medicine Patients', id="uwmedpatients") %}
+            <p style="font-weight: bold">
+              For specific information about what to do after
+              receiving your result,
+              visit <a href='https://www.uwmedicine.org/coronavirus/follow-up-instructions'>
+	      https://www.uwmedicine.org/coronavirus/follow-up-instructions</a>.
+            </p>
 
-                  {% include "resources.html" %}
-              {% endcall %}
-              {% call collapser('For Emergency Responders', id="emr") %}
-                <p style="font-weight: bold">Please visit <a href="http://www.kingcounty.gov/ems/test-info">http://www.kingcounty.gov/ems/test-info</a> for updated information on interpreting your test result, next steps regarding precautions and communicating with your agency’s health officer, as well as additional COVID-19 resources.
-                </p>
-              {% endcall %}
-            </div>
+            {% include "resources.html" %}
+          {% endcall %}
 
+          {% call collapser('For Emergency Responders', id="emr") %}
+            <p style="font-weight: bold">Please visit <a href="http://www.kingcounty.gov/ems/test-info">http://www.kingcounty.gov/ems/test-info</a> for updated information on interpreting your test result, next steps regarding precautions and communicating with your agency’s health officer, as well as additional COVID-19 resources.
+            </p>
+          {% endcall %}
 
-        {% elif result.status_code == "INCON" %}
-          <!-- inconclusive -->
-            <h4 class="alert-heading">What to do next:</h4>
+        </div>
 
-            <div id="accordion">
-              {% call collapser('For UW Medicine Patients', id="uwmedpatients") %}
-                  <p style="font-weight: bold">Please visit <a href='https://www.uwmedicine.org/coronavirus'>https://www.uwmedicine.org/coronavirus</a> for updated information.</p>
-
-                  {% include "resources.html" %}
-              {% endcall %}
-              {% call collapser('For Emergency Responders', id="emr") %}
-                <p style="font-weight: bold">Please visit <a href="http://www.kingcounty.gov/ems/test-info">http://www.kingcounty.gov/ems/test-info</a> for updated information on interpreting your test result, next steps regarding precautions and communicating with your agency’s health officer, as well as additional COVID-19 resources.
-                </p>
-              {% endcall %}
-            </div>
-        {% elif result.status_code == "NDET" %}
-          <!-- not detected -->
-            <h4 class="alert-heading">What to do next:</h4>
-
-            <div id="accordion">
-              {% call collapser('For UW Medicine Patients', id="uwmedpatients") %}
-                  <p style="font-weight: bold">Please visit <a href='https://www.uwmedicine.org/coronavirus'>https://www.uwmedicine.org/coronavirus</a> for updated information.</p>
-
-                  {% include "resources.html" %}
-              {% endcall %}
-              {% call collapser('For Emergency Responders', id="emr") %}
-                <p style="font-weight: bold">Please visit <a href="http://www.kingcounty.gov/ems/test-info">http://www.kingcounty.gov/ems/test-info</a> for updated information on interpreting your test result, next steps regarding precautions and communicating with your agency’s health officer, as well as additional COVID-19 resources.
-                </p>
-              {% endcall %}
-            </div>
-        {% else %}
+       {% else %}
           <!-- other statuses -->
           <h4 class="alert-heading">When can I expect results?</h4>
           <p>
