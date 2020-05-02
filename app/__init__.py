@@ -71,8 +71,6 @@ def show_result():
 
     try:
         result = json.load(fetch_data(key))
-        import pprint
-        pprint.pprint(result)
     except:
         return redirect('/error')
 
