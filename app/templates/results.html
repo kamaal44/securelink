@@ -76,42 +76,42 @@
               </tr>
             </table>
             {% call collapser('Methods statement', id="methods") %}
-                    <p><strong>Specimen type: </strong>Oropharyngeal or Nasopharyngeal Swab</p>
-                    {% if 'cap_method' in result %}
-                      {% macro oltg_link() %}
-                        Additional details available here:
-                        <a href="https://testguide.labmed.uw.edu/NCVQLT">
-                          https://testguide.labmed.uw.edu/NCVQLT</a>
-                      {% endmacro %}
-                      <p>
-                        {% if result.cap_method == 'LT7500' %}
-                          Testing performed using the UW SARS-CoV-2 Real-time
-                          RT-PCR assay. This laboratory developed test has
-                          been validated in a CLIA high complexity clinical
-                          laboratory under a Washington State emergency use
-                          authorization (EUA). An inconclusive result is most
-                          likely an indication of virus present near the limit
-                          of detection and should be treated as a result of
-                          Detected. {{ oltg_link() }}
-                        {% elif result.cap_method.startswith('VPANT') %}
-                          Performed using the Hologic SARS-CoV-2 Real-time
-                          RT-PCR assay under an FDA Emergency Use
-                          Authorization (EUA). {{ oltg_link() }}
-                        {% elif result.cap_method.startswith('VC68') %}
-                          Performed using the cobas® SARS-CoV-2 real-time
-                          RT-PCR assay. This test has received Emergency Use
-                          Authorization from the FDA. {{ oltg_link() }}
-                        {% else %}
-                          Methods statement not provided.
-                        {% endif %}
-                      </p>
+              <p><strong>Specimen type: </strong>Oropharyngeal or Nasopharyngeal Swab</p>
+              {% if 'cap_method' in result %}
+                {% macro oltg_link() %}
+                  Additional details available here:
+                  <a href="https://testguide.labmed.uw.edu/NCVQLT">
+                    https://testguide.labmed.uw.edu/NCVQLT</a>
+                  {% endmacro %}
+                  <p>
+                    {% if result.cap_method == 'LT7500' %}
+                      Testing performed using the UW SARS-CoV-2 Real-time
+                      RT-PCR assay. This laboratory developed test has
+                      been validated in a CLIA high complexity clinical
+                      laboratory under a Washington State emergency use
+                      authorization (EUA). An inconclusive result is most
+                      likely an indication of virus present near the limit
+                      of detection and should be treated as a result of
+                      Detected. {{ oltg_link() }}
+                    {% elif result.cap_method.startswith('VPANT') %}
+                      Performed using the Hologic SARS-CoV-2 Real-time
+                      RT-PCR assay under an FDA Emergency Use
+                      Authorization (EUA). {{ oltg_link() }}
+                    {% elif result.cap_method.startswith('VC68') %}
+                      Performed using the cobas® SARS-CoV-2 real-time
+                      RT-PCR assay. This test has received Emergency Use
+                      Authorization from the FDA. {{ oltg_link() }}
+                    {% else %}
+                      Methods statement not provided.
                     {% endif %}
-                    <p>
-                      University of Washington Department of Laboratory Medicine <br/>
-                      Box 357110 1959 NE Pacific Street, NW120<br/>
-                      Seattle, WA 98195-7110
-                    </p>
-                  {% endcall %}
+                  </p>
+                {% endif %}
+                <p>
+                  University of Washington Department of Laboratory Medicine <br/>
+                  Box 357110 1959 NE Pacific Street, NW120<br/>
+                  Seattle, WA 98195-7110
+                </p>
+              {% endcall %}
           </div>
         </div>
         {% if result.status_code in ['DET', 'INCON', 'NDET'] %}
