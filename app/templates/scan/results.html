@@ -151,13 +151,53 @@
           </p>
         </span>
         <hr>
+        <span lang="so">
+          <h4 class="alert-heading">Waxa xiga ee la sameynayo</h4>
+          <p>
+            Guji batoonka hoose si aad u heshid warbixinta baaritankaaga oo
+            buuxda. Warbixinta waxaa laga yaaba in lala wadago bixiyeyaashaada
+            daryeelkaaga caafimaad. Waxa ku jira axyaabo ku anfacaya iyo
+            macluumaad baritaan oo muhiim ah.
+            <form action='/scan/pdfreport' method="post" class='form'>
+              <input type="hidden" name="barcode" value="{{result.qrcode}}">
+              <input type="hidden" name="dob" value="{{result.birth_date}}">
+              <input type="hidden" name="lang" value="so">
+              <input type='submit' class='btn btn-info btn-lg' value="Jawabaha baaritaankaaga (PDF)" />
+            </form>
+          </p>
+        </span>
+        <hr>
+        <span lang="ko">
+          <h4 class="alert-heading">다음에 해야 할 조치</h4>
+          <p>
+            검사 보고서의 전문을 확인하려면 아래의 버튼을 클릭하세요. 이 보고서는 귀하의 의료
+            제공자와 공유할 수 있습니다. 도움이 될만한 자원과 중요한 검사 정보가 수록되어
+            있습니다.
+            <form action='/scan/pdfreport' method="post" class='form'>
+              <input type="hidden" name="barcode" value="{{result.qrcode}}">
+              <input type="hidden" name="dob" value="{{result.birth_date}}">
+              <input type="hidden" name="lang" value="ko">
+              <input type='submit' class='btn btn-info btn-lg' value="귀하의 검사 결과(PDF 파일)" />
+            </form>
+          </p>
+        </span>
+        <hr>
+        <span lang="ru">
+          <h4 class="alert-heading">Дальнейшие действия</h4>
+          <p>
+            Для получения полного отчета о тесте нажмите кнопку ниже. Отчет
+            также могут передать вашему поставщику медицинских услуг. В нем
+            указаны полезные ресурсы и важная информация о тесте.
+            <form action='/scan/pdfreport' method="post" class='form'>
+              <input type="hidden" name="barcode" value="{{result.qrcode}}">
+              <input type="hidden" name="dob" value="{{result.birth_date}}">
+              <input type="hidden" name="lang" value="ru">
+              <input type='submit' class='btn btn-info btn-lg' value="Ваши результаты теста (PDF)" />
+            </form>
+          </p>
+        </span>
+        <hr>
         <p>
-          <span lang="ru">Скоро появиться!</span>
-          •
-          <span lang="ko">곧옵니다!</span>
-          •
-          <span lang="so">Goordhow Filo!</span>
-          •
           <span lang="am">በቅርብ ቀን!</span>
           •
           <span lang="fil">Malapit na!</span>
