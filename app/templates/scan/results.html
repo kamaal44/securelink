@@ -122,6 +122,19 @@
           </p>
         </span>
         <hr>
+        <span lang="zh-Hant">
+          <h4 class="alert-heading">後續步驟</h4>
+          <p>
+            請按下方按鈕取閱完整檢測報告。報告內附實用資源及重要檢測資料，可與醫護人員分享。
+            <form action='/scan/pdfreport' method="post" class='form'>
+              <input type="hidden" name="barcode" value="{{result.qrcode}}">
+              <input type="hidden" name="dob" value="{{result.birth_date}}">
+              <input type="hidden" name="lang" value="zh-Hant">
+              <input type='submit' class='btn btn-info btn-lg' value="您的檢測結果 (PDF)" />
+            </form>
+          </p>
+        </span>
+        <hr>
         <span lang="vi">
           <h4 class="alert-heading">Làm gì tiếp theo</h4>
           <p>
@@ -150,8 +163,6 @@
           <span lang="fil">Malapit na!</span>
           •
           <span lang="ti">አብ ቀረባ እዋን!</span>
-          •
-          <span lang="zh-Hant">持續更新中!</span>
           •
           <span dir="rtl" lang="ur">جلد آرہے ہیں!</span>
         </p>
