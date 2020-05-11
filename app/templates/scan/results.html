@@ -197,13 +197,52 @@
           </p>
         </span>
         <hr>
+        <span lang="am">
+          <h4 class="alert-heading">ቀጥሎ የሚደረገው</h4>
+          <p>
+            የተሟላ የምርመራ ሪፖርትዎን ለማግኘት ከታች ያለውን ይጫኑ። ሪፖርቱ ከጤና እንክብካቤ ሰጪዎ ጋር
+            ይጋራ ይሆናል። ጠቃሚ እና አስፈላጊ የምርመራ መረጃ ይዟል።
+            <form action='/scan/pdfreport' method="post" class='form'>
+              <input type="hidden" name="barcode" value="{{result.qrcode}}">
+              <input type="hidden" name="dob" value="{{result.birth_date}}">
+              <input type="hidden" name="lang" value="am">
+              <input type='submit' class='btn btn-info btn-lg' value="የምርመራ ውጤትዎ (በPDF)" />
+            </form>
+          </p>
+        </span>
+        <hr>
+        <span lang="tl">
+          <h4 class="alert-heading">Ano ang susunod na dapat gawin</h4>
+          <p>
+            I-klik ang boton sa ibaba para sa iyong kumpletong ulat ng
+            pagsusuri. Puwedeng ibahagi ang ulat sa iyong tagapagbigay ng
+            pangangalagang pangkalusugan. Naglalaman ito ng mga
+            kapaki-pakinabang na mapagkukunan at mahahalagang impormasyon ng
+            pagsusuri.
+            <form action='/scan/pdfreport' method="post" class='form'>
+              <input type="hidden" name="barcode" value="{{result.qrcode}}">
+              <input type="hidden" name="dob" value="{{result.birth_date}}">
+              <input type="hidden" name="lang" value="tl">
+              <input type='submit' class='btn btn-info btn-lg' value="Iyong mga resulta ng pagsusuri (PDF)" />
+            </form>
+          </p>
+        </span>
+        <hr>
+        <span lang="ti">
+          <h4 class="alert-heading">ካብዚ ስዒቡ እንታይ እዩ ዝግበር</h4>
+          <p>
+            ሙሉእ ጸብጻብ ናይ መርመራኹም ክትርእዩ ኣብ ታሕቲ ጠውቑ። እቲ ጸብጻብ ንሓኪምኩም ከነካፍሎ
+            ንኽእል ኢና፡፡ ጠቓሚ ምንጭታት ኣገደስቲ ናይ መርመራ ሓበሬታን ዝሓዘ እዩ፡፡
+            <form action='/scan/pdfreport' method="post" class='form'>
+              <input type="hidden" name="barcode" value="{{result.qrcode}}">
+              <input type="hidden" name="dob" value="{{result.birth_date}}">
+              <input type="hidden" name="lang" value="ti">
+              <input type='submit' class='btn btn-info btn-lg' value="ዉጽኢት መርመራኻ (PDF)" />
+            </form>
+          </p>
+        </span>
+        <hr>
         <p>
-          <span lang="am">በቅርብ ቀን!</span>
-          •
-          <span lang="fil">Malapit na!</span>
-          •
-          <span lang="ti">አብ ቀረባ እዋን!</span>
-          •
           <span dir="rtl" lang="ur">جلد آرہے ہیں!</span>
         </p>
         {% endif %}
