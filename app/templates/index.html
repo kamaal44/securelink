@@ -1,13 +1,13 @@
 {% extends "layout.html" %}
 {% block content %}
      <div class="col-lg-9">
-        <h4>Welcome to the University of Washington Medical Center <b>COVID-19 SecureLink results portal.</b></h4>
+        <h4>Welcome to the UW Medicine <b>COVID-19 SecureLink results portal.</b></h4>
         <p>
-          If you were tested for the SARS-CoV-2 (COVID-19) Virus, you can use this portal to retrieve the status and/or results of your testing. Only patients who received a test retrieval card at the time of their test are eligible to retrieve their results via this portal.
+          If you were tested for the SARS-CoV-2 (COVID-19) Virus, you can use this portal to retrieve the status and/or results of your testing. Only individuals who received a test retrieval card at the time of their test are eligible to retrieve their results via this portal.
           <span class='font-weight-bold'>To retrieve your test result, please enter the 16 digit retrieval code and your date of birth in the form below.</span>
         </p>
         <div class='alert alert-info'><span class="font-weight-bold">If you are a SCAN study participant and have an 8-digit code</span>, please use the <a href="/scan" class="alert-link">SCAN results portal</a> to retreive your result.</div>
-        
+
         <div class='row'>
           <div class='col-lg-10'>
             <div id="form-card">
@@ -53,10 +53,17 @@
           <div class='row'>
             <div class='col-lg-10'>
               <div class='card card-body bg-light'>
-                <p><span class='font-weight-bold'>If you have lost your barcode or your access code does not show the status of your test after 48 hours</span>, please call the UW Medicine COVID-19 Patient Test Results line at (206) 520-8787. Please do <b>not</b> call if your test is shown as "in process" or "pending". 
-                </p><p>If you are a SCAN study participant, please visit the <a href='/scan'>SCAN portal</a> for contact information.</p>
+                <p><strong>If you have lost your barcode or your
+                    access code does not show the status of your test
+                    after 48 hours</strong>, please seek assistance as
+                    follows:
+		</p>
+
+		{% include "followup_if_error.html" %}
+
+                <p>If you are a SCAN study participant, please visit the <a href='/scan'>SCAN portal</a> for contact information.</p>
+              </div>
             </div>
-          </div>
         <script>
         $(document).ready(
           $("#showexample").click(function () {
