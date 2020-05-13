@@ -113,66 +113,10 @@ def show_result_dev():
     return render_template('results.html', result=result, devmode=True)
 
 
-@app.route('/scan/result', methods=['POST'])
-def scan_show_result():
-    try:
-        barcode = request.form['barcode'].upper()
-        dob = request.form['dob']
-        source = "scan"
-        dobdt = datetime.strptime(dob, "%m/%d/%Y")
-        dobstr = dobdt.strftime('%Y-%m-%d')
-    except:
-        return redirect('/scan/error')
-
-    if not validate_form_fields(barcode, dobstr, source):
-        return redirect("/scan/error")
-
-    key = f"covid19/results-scan-study/{barcode}-{dobstr}.json"
-
-    try:
-        result = json.load(fetch_data(key))
-    except:
-        return redirect('/scan/error')
-
-    # status logging
-    app.logger.info(f"{key} retrieved; status is {result['status_code']}")
-
-    if not DEVELOPMENT:
-        log_status_to_db(barcode, result['status_code'], source)
-
-    return render_template('scan/results.html', result=result)
-
 @app.route('/error')
 def error():
     return render_template('error.html')
 
-@app.route('/scan/error')
-def scan_error():
-    return render_template('scan/error.html')
-
-@app.route('/scan/pdfreport', methods=['POST'])
-def get_pdf_report():
-    barcode = request.form['barcode']
-    dob = request.form['dob']
-    lang = request.form['lang']
-    source = "scan"
-
-    if not validate_form_fields(barcode, dob, source):
-        return abort(404)
-
-    if not lang in {"en", "es", "vi", "zh-Hans", "zh-Hant"}:
-        return abort(404)
-
-    filename = f"{barcode}-{dob}-{lang}.pdf"
-
-    try:
-        content = fetch_data(f"covid19/results-scan-study/{filename}")
-    except:
-        return abort(404)
-
-    return Response(content,
-        mimetype='application/pdf',
-        headers={"Content-Disposition": f"attachment;filename={filename}"})
 
 def fetch_data(key):
     """
